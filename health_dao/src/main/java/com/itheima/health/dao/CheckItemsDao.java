@@ -16,4 +16,8 @@ public interface CheckItemsDao {
     Page<CheckItem> findByPage(String queryPageBean);
 
     Long findTotal(String queryString);
+
+    Integer deleteById(Integer id);
+
+    Integer updateCheckItem(CheckItem checkItem);
 }

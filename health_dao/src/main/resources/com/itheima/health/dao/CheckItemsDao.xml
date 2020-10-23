@@ -30,4 +30,22 @@
                 /*limit ${pageSize*(currentPage-1)},#{pageSize}*/
         </select>
 
+        <delete id="deleteById">
+                delete from t_checkitem where id = #{id};
+        </delete>
+
+        <update id="updateCheckItem">
+                  update t_checkitem
+                    set
+                        code=#{code},
+                        name=#{name},
+                        sex=#{sex},
+                        age=#{age},
+                        price=#{price},
+                        type=#{type},
+                        remark=#{remark},
+                        attention=#{attention}
+                    where id=#{id}
+        </update>
+
 </mapper>

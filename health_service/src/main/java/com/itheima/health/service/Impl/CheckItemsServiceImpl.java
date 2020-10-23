@@ -57,4 +57,19 @@ public class CheckItemsServiceImpl implements CheckItemsService {
         PageResult<CheckItem> pageResult = new PageResult<CheckItem>(page.getTotal(), page.getResult());
         return pageResult;
     }
+
+    @Override
+    public Boolean deleteById(Integer id) {
+
+        Integer rows = checkItemsDao.deleteById(id);
+        return rows>0;
+    }
+
+    @Override
+    public Boolean updateCheckItem(CheckItem checkItem) {
+
+        Integer rows = checkItemsDao.updateCheckItem(checkItem);
+
+        return rows>0;
+    }
 }

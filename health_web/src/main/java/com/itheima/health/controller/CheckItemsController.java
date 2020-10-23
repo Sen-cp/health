@@ -37,4 +37,17 @@ public class CheckItemsController {
         PageResult<CheckItem> pageResult = checkItemsService.findByPage(queryPageBean);
         return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
     }
+
+    @PostMapping("/deleteById")
+    public Result deleteById(@RequestBody CheckItem checkItem){
+        Integer id = checkItem.getId();
+        Boolean flag = checkItemsService.deleteById(id);
+        return new Result(flag,flag?MessageConstant.DELETE_CHECKITEM_SUCCESS:MessageConstant.DELETE_CHECKITEM_FAIL);
+    }
+
+    @PostMapping("/updateCheckItem")
+    public Result updateCheckItem(@RequestBody CheckItem checkItem){
+        Boolean flag = checkItemsService.updateCheckItem(checkItem);
+        return new Result(flag,flag?MessageConstant.QUERY_CHECKITEM_SUCCESS:MessageConstant.QUERY_CHECKITEM_FAIL);
+    }
 }

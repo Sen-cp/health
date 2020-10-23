@@ -13,4 +13,8 @@ public interface CheckItemsService {
     Boolean add(CheckItem checkItem);
 
     PageResult<CheckItem> findByPage(QueryPageBean queryPageBean);
+
+    Boolean deleteById(Integer id);
+
+    Boolean updateCheckItem(CheckItem checkItem);
 }

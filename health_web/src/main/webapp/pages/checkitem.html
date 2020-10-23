@@ -240,6 +240,21 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    //对校验项进行校验 dataEditForm
+                    this.$refs['dataEditForm'].validate((valid) =>{
+                        if (valid){
+                            axios.post("/checkItems/updateCheckItem.do",this.formData).then(res => {
+                                if (res.data.flag) {
+                                    this.dialogFormVisible4Edit = false;
+                                    this.findPage();
+                                }
+                                this.$message({
+                                    message: res.data.message,
+                                    type: res.data.flag ? "success" : "error"
+                                });
+                            })
+                        }
+                    } )
                 },
                 //添加
                 handleAdd() {
@@ -283,6 +298,8 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
+                    this.formData = row;
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -291,6 +308,14 @@
                 },
                 // 删除
                 handleDelete(row) {
+                     // alert(JSON.stringify(row));
+                    axios.post("/checkItems/deleteById.do",row).then(res =>{
+                        if (res.data.flag){
+                            this.findPage();
+                        }else{
+                            this.$message.error(res.data.message)
+                        }
+                    })
                 }
             }
         }
