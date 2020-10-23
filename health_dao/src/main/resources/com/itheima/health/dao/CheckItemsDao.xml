@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：名称空间， 写接口的全限定名-->
+<mapper namespace="com.itheima.health.dao.CheckItemsDao">
+        <!--mapper: 编写sql语句-->
+
+        <select id="findAll" resultType="CheckItem">
+                select * from t_checkitem;
+        </select>
+
+        <insert id="add">
+                 insert into t_checkitem(code,name,sex,age,price,type,remark,attention)
+        values (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+        </insert>
+
+        <select id="findByPage" resultType="CheckItem">
+                select * from t_checkitem<where>
+                        <if test="queryString != null ">
+                            and name like "%"#{queryString}"%"
+                        </if>
+                </where>limit ${pageSize*(currentPage-1)},#{pageSize}
+        </select>
+
+        <select id="findTotal" resultType="long">
+                select count(*) from t_checkitem<where>
+                        <if test="queryString != null ">
+                                and name like "%"#{queryString}"%"
+                        </if></where>
+                /*limit ${pageSize*(currentPage-1)},#{pageSize}*/
+        </select>
+
+</mapper>
