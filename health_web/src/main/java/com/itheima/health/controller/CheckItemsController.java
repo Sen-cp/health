@@ -35,7 +35,6 @@ public class CheckItemsController {
     @PostMapping("/findByPage")
     public Result findByPage(@RequestBody QueryPageBean queryPageBean){
         PageResult<CheckItem> pageResult = checkItemsService.findByPage(queryPageBean);
-        System.out.println("你好");
         return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
     }
 }

@@ -15,12 +15,11 @@
         values (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
         </insert>
 
-        <select id="findByPage" resultType="CheckItem">
-                select * from t_checkitem<where>
-                        <if test="queryString != null ">
-                            and name like "%"#{queryString}"%"
-                        </if>
-                </where>limit ${pageSize*(currentPage-1)},#{pageSize}
+        <select id="findByPage" resultType="Checkitem" parameterType="String">
+                select * From t_checkitem
+                <if test="value !=null and value.length > 0">
+                        where code like #{value} or name like #{value}
+                </if>
         </select>
 
         <select id="findTotal" resultType="long">

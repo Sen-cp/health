@@ -263,10 +263,7 @@
 
                 //分页查询
                 findPage() {
-                    alert(JSON.stringify(this.pagination))
                     axios.post("/checkItems/findByPage.do", this.pagination).then(res => {
-
-                        alert(JSON.stringify(res));
                         if (res.data.flag){
                             this.pagination.total = res.data.data.total;
                             this.dataList = res.data.data.rows

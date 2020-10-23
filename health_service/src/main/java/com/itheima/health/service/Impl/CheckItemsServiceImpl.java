@@ -1,6 +1,9 @@
 package com.itheima.health.service.Impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.itheima.health.dao.CheckItemsDao;
 import com.itheima.health.entity.PageResult;
@@ -32,7 +35,7 @@ public class CheckItemsServiceImpl implements CheckItemsService {
     public PageResult<CheckItem> findByPage(QueryPageBean queryPageBean) {
 
 
-        List<CheckItem> list = checkItemsDao.findByPage(queryPageBean   );
+        /*List<CheckItem> list = checkItemsDao.findByPage(queryPageBean   );
         String queryString = queryPageBean.getQueryString();
         Long total = null;
         if (!queryString.isEmpty()) {
@@ -40,7 +43,18 @@ public class CheckItemsServiceImpl implements CheckItemsService {
             total = checkItemsDao.findTotal(queryString);
         }else{
             total = checkItemsDao.findTotal(null);
+        }*/
+
+        //--------------------------------------------------------
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
+
+        if(!StringUtils.isEmpty(queryPageBean.getQueryString())){
+            // 有查询条件，拼接%
+            queryPageBean.setQueryString("%" + queryPageBean.getQueryString() + "%");
         }
-        return new PageResult<>(total, list);
+        Page<CheckItem> page = checkItemsDao.findByPage(queryPageBean.getQueryString());
+
+        PageResult<CheckItem> pageResult = new PageResult<CheckItem>(page.getTotal(), page.getResult());
+        return pageResult;
     }
 }

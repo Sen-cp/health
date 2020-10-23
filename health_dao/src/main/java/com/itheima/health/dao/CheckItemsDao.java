@@ -1,5 +1,6 @@
 package com.itheima.health.dao;
 
+import com.github.pagehelper.Page;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.pojo.CheckItem;
@@ -12,7 +13,7 @@ public interface CheckItemsDao {
 
     Integer add(CheckItem checkItem);
 
-    List<CheckItem> findByPage(QueryPageBean queryPageBean);
+    Page<CheckItem> findByPage(String queryPageBean);
 
     Long findTotal(String queryString);
 }
