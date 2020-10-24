@@ -10,8 +10,9 @@ import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.service.CheckGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service(interfaceClass = CheckGroupService.class)
 public class CheckGroupServiceImpl implements CheckGroupService {
 
     @Autowired
@@ -25,5 +26,15 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         }
         Page<CheckGroup> pages = checkGroupDao.findPage(queryPageBean.getQueryString());
         return new PageResult<>(pages.getTotal(),pages.getResult());
+    }
+
+    @Override
+    @Transactional
+    public void add(CheckGroup checkGroup, Integer[] checkitemIds) {
+        checkGroupDao.add(checkGroup);
+        Integer id = checkGroup.getId();
+        for (Integer checkitemId : checkitemIds) {
+            checkGroupDao.addCheckGroupCheckItem(id,checkitemId);
+        }
     }
 }

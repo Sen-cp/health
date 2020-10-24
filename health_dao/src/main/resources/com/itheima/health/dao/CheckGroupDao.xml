@@ -14,5 +14,16 @@
 
         </select>
 
+        <insert id="add" parameterType="CheckGroup" keyProperty="id" useGeneratedKeys="true">
+                insert into t_checkgroup
+                (code,name,helpCode,sex,remark,attention)
+                values ( #{code},#{name},#{helpCode},#{sex},#{remark},#{attention});
+        </insert>
+
+        <insert id="addCheckGroupCheckItem" parameterType="int">
+                insert into t_checkgroup_checkitem (checkgroup_id, checkitem_id)
+                values (#{checkgroupId},#{checkitemId})
+        </insert>
+
 
 </mapper>

@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class CheckGroup implements Serializable {
 
-
     private Integer id;//主键
     private String code;//编码
     private String name;//名称

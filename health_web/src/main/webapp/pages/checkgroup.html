@@ -285,8 +285,18 @@
                 },
                 //添加
                 handleAdd () {
-                    alert(JSON.stringify(this.formData))
-                    alert(JSON.stringify(this.checkitemIds))
+                    alert(JSON.stringify(this.formData));
+                    alert(JSON.stringify(this.checkitemIds));
+                    axios.post("/checkGroup/add.do?checkitemIds="+this.checkitemIds,this.formData)
+                        .then(res => {
+                            if (res.data.flag){
+                                this.dialogFormVisible = false;
+                                this.findPage();
+                            }else{
+                                this.$message(res.data.message)
+                            }
+
+                    })
                 },
                 //分页查询
                 findPage() {
@@ -303,11 +313,24 @@
                 },
                 // 重置表单
                 resetForm() {
+                    this.activeName = "first";
+                    this.checkitemIds = [];
+                    this.formData = {};
+                    this.tableData = [];
                 },
                 // 弹出添加窗口
                 handleCreate() {
                     this.dialogFormVisible = true;
-                    //还要查询checkitem的数据 然后注入到checkitems
+                    //还要查询checkitem的数据 然后注入到tableData
+                    this.resetForm();
+                    //发送请求查询所有检查项
+                    axios.get("/checkItems/findAll.do").then(res => {
+                        if (res.data.flag){
+                            this.tableData = res.data.data;
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {

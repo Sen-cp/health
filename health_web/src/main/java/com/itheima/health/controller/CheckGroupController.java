@@ -20,10 +20,17 @@ public class CheckGroupController {
     private CheckGroupService checkGroupService;
 
     @PostMapping("/findPage")
-    public Result findPage(@RequestBody QueryPageBean queryPageBean){
+    public Result findPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult<CheckGroup> pageResult =
                 checkGroupService.findPage(queryPageBean);
 
-        return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,pageResult);
+        return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS, pageResult);
+    }
+
+
+    @PostMapping("/add")
+    public Result add(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds) {
+        checkGroupService.add(checkGroup,checkitemIds);
+        return new Result(true,MessageConstant.ADD_CHECKGROUP_SUCCESS);
     }
 }
