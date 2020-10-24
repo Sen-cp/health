@@ -17,13 +17,47 @@
         <insert id="add" parameterType="CheckGroup" keyProperty="id" useGeneratedKeys="true">
                 insert into t_checkgroup
                 (code,name,helpCode,sex,remark,attention)
-                values ( #{code},#{name},#{helpCode},#{sex},#{remark},#{attention});
+                values ( #{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
         </insert>
 
         <insert id="addCheckGroupCheckItem" parameterType="int">
                 insert into t_checkgroup_checkitem (checkgroup_id, checkitem_id)
                 values (#{checkgroupId},#{checkitemId})
         </insert>
+
+        <select id="findCheckItemsById" parameterType="int" resultType="int">
+                select checkitem_id from t_checkgroup_checkitem
+                where checkgroup_id = #{id};
+        </select>
+
+        <update id="update" parameterType="CheckGroup">
+                update t_checkgroup
+                set
+                code=#{code},
+                name=#{name},
+                helpCode=#{helpCode},
+                sex=#{sex},
+                remark=#{remark},
+                attention=#{attention}
+                where id = #{id};
+        </update>
+
+        <delete id="deleteById" parameterType="int">
+                delete from t_checkgroup_checkitem
+                where checkgroup_id = #{id}
+        </delete>
+
+        <select id="countGroupSetmeal" parameterType="int" resultType="int">
+                select count(0) from t_setmeal_checkgroup
+                where checkgroup_id = #{id}
+        </select>
+
+        <delete id="deleteGroupById" parameterType="int">
+                delete  from t_checkgroup
+                where id = #{id}
+        </delete>
+
+
 
 
 </mapper>

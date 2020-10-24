@@ -282,11 +282,19 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    //formData checkitemIds
+                    axios.post("/checkGroup/update.do?checkitemIds="+this.checkitemIds,this.formData)
+                    .then(res => {
+                        if (res.data.flag){
+                            this.dialogFormVisible4Edit = false;
+                            this.findPage();
+                        }else{
+                            this.$message(res.data.message)
+                        }
+                    });
                 },
                 //添加
                 handleAdd () {
-                    alert(JSON.stringify(this.formData));
-                    alert(JSON.stringify(this.checkitemIds));
                     axios.post("/checkGroup/add.do?checkitemIds="+this.checkitemIds,this.formData)
                         .then(res => {
                             if (res.data.flag){
@@ -334,6 +342,26 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
+                    this.resetForm();
+                    //回显数据
+                    this.formData = row;
+                    //查询所有检查项
+                    axios.get("/checkItems/findAll.do").then(res => {
+                        if (res.data.flag){
+                            this.tableData = res.data.data;
+                            //后台查询这个row对应id所勾选的检查项
+                            axios.get("/checkGroup/findCheckItemsById.do?id="+row.id).then(res1 => {
+                                if (res1.data.flag){
+                                    this.checkitemIds = res1.data.data;
+                                }else{
+                                    this.$message.error(res.data.message);
+                                }
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -342,6 +370,23 @@
                 },
                 // 删除
                 handleDelete(row) {
+
+                    this.$confirm('此操作将永久删除该检查组, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("/checkGroup/deleteGroupById.do?id="+ row.id).then(res =>{
+                            if (res.data.flag){
+                                this.findPage();
+                            }else{
+                                this.$message.error(res.data.message)
+                            }
+                        });
+                    }).catch(() => {
+
+                    });
+
                 }
             }
         })

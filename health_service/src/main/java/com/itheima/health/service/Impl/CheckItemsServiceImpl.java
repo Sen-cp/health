@@ -72,7 +72,7 @@ public class CheckItemsServiceImpl implements CheckItemsService {
             //2.如果有则定义一个异常类 抛出自定义异常
             throw new HealthException("想要删除的检查项已被检查组使用,请先删除检查组!");
         }
-
+        //删除组
         Integer rows = checkItemsDao.deleteById(id);
         return rows>0;
     }
