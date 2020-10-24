@@ -6,6 +6,7 @@ import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.entity.Result;
+import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckItemsService;
 import org.springframework.web.bind.annotation.*;
@@ -20,34 +21,36 @@ public class CheckItemsController {
     private CheckItemsService checkItemsService;
 
     @GetMapping("/findAll")
-    public Result findAll(){
+    public Result findAll() {
         List<CheckItem> list = checkItemsService.findAll();
         return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, list);
     }
 
 
     @PostMapping("/add")
-    public Result add(@RequestBody CheckItem checkItem){
+    public Result add(@RequestBody CheckItem checkItem) {
         Boolean flag = checkItemsService.add(checkItem);
-        return new Result(flag,flag?MessageConstant.ADD_CHECKITEM_SUCCESS:MessageConstant.ADD_CHECKITEM_FAIL);
+        return new Result(flag, flag ? MessageConstant.ADD_CHECKITEM_SUCCESS : MessageConstant.ADD_CHECKITEM_FAIL);
     }
 
     @PostMapping("/findByPage")
-    public Result findByPage(@RequestBody QueryPageBean queryPageBean){
+    public Result findByPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult<CheckItem> pageResult = checkItemsService.findByPage(queryPageBean);
-        return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
+        return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, pageResult);
     }
 
     @PostMapping("/deleteById")
-    public Result deleteById(@RequestBody CheckItem checkItem){
-        Integer id = checkItem.getId();
-        Boolean flag = checkItemsService.deleteById(id);
-        return new Result(flag,flag?MessageConstant.DELETE_CHECKITEM_SUCCESS:MessageConstant.DELETE_CHECKITEM_FAIL);
+    public Result deleteById(Integer id) {
+
+
+        checkItemsService.deleteById(id);
+
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 
     @PostMapping("/updateCheckItem")
-    public Result updateCheckItem(@RequestBody CheckItem checkItem){
+    public Result updateCheckItem(@RequestBody CheckItem checkItem) {
         Boolean flag = checkItemsService.updateCheckItem(checkItem);
-        return new Result(flag,flag?MessageConstant.QUERY_CHECKITEM_SUCCESS:MessageConstant.QUERY_CHECKITEM_FAIL);
+        return new Result(flag, flag ? MessageConstant.QUERY_CHECKITEM_SUCCESS : MessageConstant.QUERY_CHECKITEM_FAIL);
     }
 }

@@ -20,4 +20,6 @@ public interface CheckItemsDao {
     Integer deleteById(Integer id);
 
     Integer updateCheckItem(CheckItem checkItem);
+
+    Integer count(Integer id);
 }
