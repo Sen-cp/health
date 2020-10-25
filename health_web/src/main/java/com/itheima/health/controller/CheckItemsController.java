@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/checkItems")
 public class CheckItemsController {
 
-    @Reference()
+    @Reference
     private CheckItemsService checkItemsService;
 
     @GetMapping("/findAll")
