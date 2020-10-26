@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.health.dao.OrdersettingDao">
+    <select id="findOrderDate" parameterType="OrderSetting" resultType="OrderSetting">
+        select * from t_orderSetting where orderDate = #{orderDate}
+    </select>
+
+    <update id="updataNum" parameterType="OrderSetting">
+        update t_orderSetting
+        set number = #{number}
+        where orderDate = #{orderDate}
+    </update>
+
+    <insert id="add" parameterType="OrderSetting">
+        insert into t_orderSetting (orderDate,number,reservations)
+        values (#{orderDate},#{number},#{reservations})
+    </insert>
+
+    <select id="findByYearMoth" parameterType="string" resultType="map">
+        select
+         CAST(DATE_FORMAT(orderdate,'%d') as SIGNED) date,
+         number,
+         reservations
+         from t_ordersetting
+        where orderDate like #{ym}
+    </select>
+
+</mapper>
