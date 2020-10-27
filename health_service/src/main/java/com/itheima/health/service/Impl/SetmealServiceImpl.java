@@ -86,4 +86,10 @@ public class SetmealServiceImpl implements SetmealService {
         //删除套餐
         setmealDao.delete(id);
     }
+
+    @Override
+    public List<String> findAllImg() {
+
+       return setmealDao.findAllImg();
+    }
 }

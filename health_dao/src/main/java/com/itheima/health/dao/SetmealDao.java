@@ -28,4 +28,7 @@ public interface SetmealDao {
     Integer count(Integer id);
 
     void delete(Integer id);
+
+    List<String> findAllImg();
+
 }

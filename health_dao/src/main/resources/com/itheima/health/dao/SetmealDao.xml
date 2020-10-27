@@ -63,4 +63,8 @@
         delete from t_setmeal where id = #{id}
     </delete>
 
+    <select id="findAllImg" resultType="string">
+        select  img from t_setmeal
+    </select>
+
 </mapper>

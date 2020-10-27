@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+<!--    指定应用的名称-->
+    <dubbo:application name="health_jobs"/>
+<!--    指定服务的注册中心-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+<!--    注册任务-->
+    <dubbo:annotation package="com.itheima.health.job"/>
+
+
+<!--    策略 资源位置-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="clearImg"/>
+        <property name="targetMethod" value="cleanImg"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+<!--    触发器 设置时间-->
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="cronExpression" value="0/30 * * * * ?"/>
+        <property name="jobDetail" ref="jobDetail"/>
+    </bean>
+
+<!--    调度容器-->
+    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="trigger"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
