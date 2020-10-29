@@ -67,4 +67,40 @@
         select  img from t_setmeal
     </select>
 
+    <select id="getSetmeal" resultType="Setmeal">
+        select * from t_setmeal
+    </select>
+
+
+    <select id="findDetailById" parameterType="int" resultMap="findGroupAndCheckItem">
+              select s.*,g.id as group_id,g.name as group_name,g.remark as group_remark,ci.id as item_id,ci.name as item_name from t_setmeal s
+                left join t_setmeal_checkgroup sc on s.id = sc.setmeal_id
+                left join t_checkgroup g on g.id =  sc.checkgroup_id
+                left join t_checkgroup_checkitem gi on g.id = gi.checkgroup_id
+                left join t_checkitem ci on gi.checkitem_id = ci.id
+
+                where s.id = #{id}
+    </select>
+
+    <resultMap id="findGroupAndCheckItem" type="Setmeal">
+        <!--绑定自身属性-->
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="remark" column="remark"/>
+        <result property="img" column="img"/>
+        <collection property="checkGroups" ofType="CheckGroup">
+            <!--绑定自身属性-->
+            <id property="id" column="group_id"/>
+            <result property="name" column="group_name"/>
+            <result property="remark" column="group_remark"/>
+            <collection property="checkItems" ofType="CheckItem">
+                <!--绑定属性-->
+                <id property="id" column="item_id"/>
+                <result property="name" column="item_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
 </mapper>

@@ -28,13 +28,15 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     @Transactional
-    public void add(Setmeal setmeal, Integer[] checkgroupIds) {
+    public Integer add(Setmeal setmeal, Integer[] checkgroupIds) {
         //添加套餐信息 返回id
         setmealDao.addMeal(setmeal);
         Integer id = setmeal.getId();
         for (Integer checkgroupId : checkgroupIds) {
             setmealDao.addMealGroup(id,checkgroupId);
         }
+
+        return id;
     }
 
     @Override
@@ -91,5 +93,17 @@ public class SetmealServiceImpl implements SetmealService {
     public List<String> findAllImg() {
 
        return setmealDao.findAllImg();
+    }
+
+    @Override
+    public List<Setmeal> getSetmeal() {
+
+        return setmealDao.getSetmeal();
+    }
+
+    @Override
+    public Setmeal findDetailById(Integer id) {
+
+        return setmealDao.findDetailById(id);
     }
 }

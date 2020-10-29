@@ -2,16 +2,21 @@ package com.itheima.health.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
-import com.itheima.health.pojo.Setmeal;
-import com.itheima.health.service.SetmealService;
-import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.CheckGroup;
+import com.itheima.health.pojo.Setmeal;
+import com.itheima.health.service.SetmealService;
 import com.itheima.health.utils.QiNiuUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +29,8 @@ import java.util.UUID;
 public class SetmealController {
     @Reference
     private SetmealService setmealService;
+    @Autowired
+    private JedisPool jedisPool;
 
     //将图片上传到七牛云
     @PostMapping("/upload")
@@ -59,7 +66,13 @@ public class SetmealController {
     //添加检查套餐
     @PostMapping("/add")
     public Result add(@RequestBody Setmeal setmeal,Integer[] checkgroupIds){
-        setmealService.add(setmeal,checkgroupIds);
+        Integer id = setmealService.add(setmeal,checkgroupIds);
+        // 获取redis连接对象
+        Jedis jedis = jedisPool.getResource();
+        // redis中set集合中保存的元素格式为: 套餐id|操作类型|时间戳
+        jedis.sadd("setmeal:static:html",id + "|1|" + System.currentTimeMillis());
+        // 还回连接池
+        jedis.close();
         return new Result(true,"新增套餐成功!");
     }
 
@@ -85,6 +98,12 @@ public class SetmealController {
     @GetMapping("/findMealGroup")
     public Result findMealGroup(Integer id){
         List<Integer> list = setmealService.findMealGroup(id);
+        // 获取redis连接对象
+        Jedis jedis = jedisPool.getResource();
+        // redis中set集合中保存的元素格式为: 套餐id|操作类型|时间戳
+        jedis.sadd("setmeal:static:html",id + "|1|" + System.currentTimeMillis());
+        // 还回连接池
+        jedis.close();
         return new Result(true,"回显勾选组数据成功!",list);
     }
 
@@ -101,6 +120,14 @@ public class SetmealController {
     @PostMapping("/deleteById")
     public Result delete(Integer id){
         setmealService.delete(id);
+        Jedis jedis = jedisPool.getResource();
+        // 操作符0代表删除
+        jedis.sadd("setmeal:static:html",id + "|0|" + System.currentTimeMillis());
+        jedis.close();
+
         return new Result(true,"删除套餐成功!");
     }
+
+
+
 }

@@ -31,4 +31,7 @@ public interface SetmealDao {
 
     List<String> findAllImg();
 
+    List<Setmeal> getSetmeal();
+
+    Setmeal findDetailById(Integer id);
 }

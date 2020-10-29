@@ -16,7 +16,7 @@ public interface SetmealService {
 
     List<CheckGroup> findAllGroup();
 
-    void add(Setmeal setmeal, Integer[] checkgroupIds);
+    Integer add(Setmeal setmeal, Integer[] checkgroupIds);
 
     PageResult<Setmeal> findPage(QueryPageBean queryPageBean);
 
@@ -29,4 +29,8 @@ public interface SetmealService {
     void delete(Integer id) throws HealthException;
 
     List<String> findAllImg();
+
+    List<Setmeal> getSetmeal();
+
+    Setmeal findDetailById(Integer id);
 }

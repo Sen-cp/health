@@ -18,4 +18,10 @@
     <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"/>
 
 
+    <!--导入freemarker配置-->
+    <import resource="classpath:spring-freemarker.xml"/>
+    <!--导入redis配置-->
+    <import resource="classpath:spring-redis.xml"/>
+
+
 </beans>
