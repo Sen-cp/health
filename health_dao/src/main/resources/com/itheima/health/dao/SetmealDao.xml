@@ -103,4 +103,9 @@
         </collection>
     </resultMap>
 
+
+    <select id="findById" parameterType="int" resultType="Setmeal">
+        select * from t_setmeal where id = #{id}
+    </select>
+
 </mapper>

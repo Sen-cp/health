@@ -19,7 +19,7 @@ public class ClearImg {
     @Reference
     private SetmealService setmealService;
 
-    @Scheduled(fixedDelay = 1800000,initialDelay = 3000)
+//    @Scheduled(fixedDelay = 1800000,initialDelay = 3000)
     public void cleanImg(){
         log.info("开始执行垃圾图片删除");
 

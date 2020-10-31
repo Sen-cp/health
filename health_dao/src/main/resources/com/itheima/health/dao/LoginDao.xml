@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.health.dao.LoginDao">
+
+    <select id="check" parameterType="string" resultType="int">
+        select count(*) from t_member where phoneNumber = #{telephone}
+    </select>
+
+    <insert id="register">
+        insert into t_member (phoneNumber,remark)
+        values (#{telephone},#{remark})
+    </insert>
+</mapper>

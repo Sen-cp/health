@@ -7,6 +7,11 @@ import java.util.Date;
  * 会员
  */
 public class Member implements Serializable{
+
+
+
+
+
     private Integer id;//主键
     private String fileNumber;//档案号
     private String name;//姓名

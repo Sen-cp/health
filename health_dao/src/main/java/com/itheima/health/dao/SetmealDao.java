@@ -34,4 +34,6 @@ public interface SetmealDao {
     List<Setmeal> getSetmeal();
 
     Setmeal findDetailById(Integer id);
+
+    Setmeal findById(Integer id);
 }

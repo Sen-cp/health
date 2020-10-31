@@ -13,12 +13,12 @@ import com.aliyuncs.profile.IClientProfile;
  * 短信发送工具类
  */
 public class SMSUtils {
-	public static final String VALIDATE_CODE = "SMS_189616640";//发送短信验证码模板编码  模版CODE
+	public static final String VALIDATE_CODE = "SMS_205134116";//发送短信验证码模板编码  模版CODE
 	public static final String ORDER_NOTICE = "SMS_159771588";//体检预约成功通知
-	private static final String SIGN_NAEM = "黑马程序员";// 短信的签名
+	private static final String SIGN_NAEM = "河马玩玩";// 短信的签名
 	private static final String PARAMETER_NAME="code";
-	private static final String ACCESS_KEY="LTAI4GEKPyNCoPH43kZH8hZN"; //你的AccessKey ID
-	private static final String SECRET_KEY="GTx8cCTLvE32uLYJCuabaSOY3bz9rr"; //你的AccessKey Secret
+	private static final String ACCESS_KEY="LTAI4G7WecjXcsLAndpzMC7M"; //你的AccessKey ID
+	private static final String SECRET_KEY="hYjPASkr7dfzFCyGRtytMMYSlRJTYi"; //你的AccessKey Secret
 
 	public static void main(String[] args) throws ClientException {
 		SMSUtils.sendShortMessage(VALIDATE_CODE,"13652431027","666666");
